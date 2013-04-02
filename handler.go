@@ -20,6 +20,7 @@ const (
 	LOCATION = "location"
 	LINK     = "link"
 	EVENT    = "event"
+	VOICE    = "voice"
 )
 
 type WxHttpHandler struct {
@@ -33,6 +34,7 @@ type WxHandler interface {
 	Location(Message) Replay
 	Link(Message) Replay
 	Event(Message) Replay
+	Voice(Message) Replay
 	Default(Message) Replay
 }
 
@@ -95,6 +97,8 @@ func (wx *WxHttpHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		reply = wx.Handler.Link(msg)
 	case EVENT:
 		reply = wx.Handler.Event(msg)
+	case VOICE:
+		reply = wx.Handler.Voice(msg)
 	default:
 		reply = wx.Handler.Default(msg)
 	}
@@ -167,6 +171,9 @@ func (h *BaseWeiXinHandler) Link(msg Message) Replay {
 	return h.Default(msg)
 }
 func (h *BaseWeiXinHandler) Event(msg Message) Replay {
+	return h.Default(msg)
+}
+func (h *BaseWeiXinHandler) Voice(msg Message) Replay {
 	return h.Default(msg)
 }
 func (h *BaseWeiXinHandler) Default(msg Message) Replay {

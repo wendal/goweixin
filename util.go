@@ -10,6 +10,6 @@ func ReplyText(txt string) Replay {
 	return replay
 }
 
-func ReplayTextf(format string, args ...interface{}) Replay {
+func ReplyTextf(format string, args ...interface{}) Replay {
 	return ReplyText(fmt.Sprintf(format, args...))
 }

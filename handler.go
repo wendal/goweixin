@@ -159,3 +159,7 @@ func (h *BaseWeiXinHandler) Event(msg Message) Replay {
 func (h *BaseWeiXinHandler) Default(msg Message) Replay {
 	return nil
 }
+
+func SetDebug(_debug bool) {
+	_Debug = _debug
+}

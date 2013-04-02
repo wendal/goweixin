@@ -117,7 +117,11 @@ func (wx *WxHttpHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	rw.Write([]byte("<xml>"))
-	rw.Write([]byte(MapToXmlString(reply)))
+	_re := MapToXmlString(reply)
+	if _Debug {
+		log.Println("Reply\n" + _re)
+	}
+	rw.Write([]byte(_re))
 	rw.Write([]byte("</xml>"))
 	ok = true
 }

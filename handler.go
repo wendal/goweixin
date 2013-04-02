@@ -183,7 +183,3 @@ func (h *BaseWeiXinHandler) Default(msg Message) Replay {
 func SetDebug(_debug bool) {
 	_Debug = _debug
 }
-
-type XmlMessage struct {
-	Msg Message `xml:"xml"`
-}

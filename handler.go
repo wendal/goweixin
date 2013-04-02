@@ -69,16 +69,15 @@ func (wx *WxHttpHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	m := map[string]interface{}{}
-	err = xml.Unmarshal(data, &m)
+	var xmlMsg XmlMessage
+	err = xml.Unmarshal(data, &xmlMsg)
 	if err != nil {
 		log.Println("Bad Req Body ERR", req, err)
 		rw.WriteHeader(500)
 		return
 	}
 
-	var msg Message
-	msg = m["xml"].(map[string]interface{})
+	msg := xmlMsg.Msg
 	msgType = msg.MsgType()
 	var reply Replay
 	switch msgType {
@@ -165,4 +164,8 @@ func (h *BaseWeiXinHandler) Default(msg Message) Replay {
 
 func SetDebug(_debug bool) {
 	_Debug = _debug
+}
+
+type XmlMessage struct {
+	Msg Message `xml:"xml"`
 }

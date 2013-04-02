@@ -82,6 +82,9 @@ func (wx *WxHttpHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	msgType = msg.MsgType()
 	if _Debug {
 		log.Println("MsgType =", msgType)
+		if msgType == "" {
+			log.Println("Req Data\n", string(data))
+		}
 	}
 	var reply Replay
 	switch msgType {

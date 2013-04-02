@@ -127,7 +127,15 @@ func (wx *WxHttpHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 func Verify(token string, timestamp string, nonce string, signature string) bool {
 	strs := []string{token, timestamp, nonce}
 	sort.Strings(strs)
-	return signature == string(sha1.New().Sum([]byte(strs[0]+strs[1]+strs[2])))
+	key := strs[0] + strs[1] + strs[2]
+	if _Debug {
+		log.Println("Verify key=", key)
+	}
+	re := string(sha1.New().Sum([]byte()))
+	if _Debug {
+		log.Println("Verify", signature, re)
+	}
+	return signature == re
 }
 
 type BaseWeiXinHandler struct {

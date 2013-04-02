@@ -4,6 +4,7 @@ import (
 	"crypto/sha1"
 	"encoding/xml"
 	"fmt"
+	"github.com/clbanning/x2j"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -70,15 +71,12 @@ func (wx *WxHttpHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	var xmlMsg XmlMessage
-	err = xml.Unmarshal(data, &xmlMsg)
+	root, err := x2j.DocToMap(string(data))
 	if err != nil {
-		log.Println("Bad Req Body ERR", req, err)
-		rw.WriteHeader(500)
+		fmt.Println(err)
 		return
 	}
-
-	msg := xmlMsg.Msg
+	msg := Message(root["xml"].(map[string]interface{}))
 	msgType = msg.MsgType()
 	if _Debug {
 		log.Println("MsgType =", msgType)

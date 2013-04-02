@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"sort"
 	"time"
 )
 
@@ -77,8 +78,9 @@ func (wx *WxHttpHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 	var msg Message
 	msg = m["xml"].(map[string]interface{})
+	msgType = msg.MsgType()
 	var reply Replay
-	switch msg.MsgType() {
+	switch msgType {
 	case TEXT:
 		reply = wx.Handler.Text(msg)
 	case IMAGE:
@@ -123,7 +125,9 @@ func (wx *WxHttpHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 }
 
 func Verify(token string, timestamp string, nonce string, signature string) bool {
-	return signature == string(sha1.New().Sum([]byte(token+timestamp+nonce)))
+	strs := []string{token, timestamp, nonce}
+	sort.Strings(strs)
+	return signature == string(sha1.New().Sum([]byte(strs[0]+strs[1]+strs[2])))
 }
 
 type BaseWeiXinHandler struct {

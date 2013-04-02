@@ -76,16 +76,16 @@ func (w Message) Label() string {
 
 //--------------------------------
 
-func (w Message) Event() int64 {
-	return w.Int64("Event")
+func (w Message) Event() string {
+	return w.String("Event")
 }
 func (w Message) EventKey() string {
 	return w.String("EventKey")
 }
 
 //--------------------------------
-func (w Message) Title() int64 {
-	return w.Int64("Title")
+func (w Message) Title() string {
+	return w.String("Title")
 }
 func (w Message) Description() string {
 	return w.String("Description")

@@ -69,19 +69,19 @@ func (wx *WxHttpHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		rw.WriteHeader(500)
 		return
 	}
+	if DevMode {
+		log.Println("Req\n" + string(data))
+	}
 
 	root, err := x2j.DocToMap(string(data))
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Bad XML Req", err)
 		return
 	}
 	msg := Message(root["xml"].(map[string]interface{}))
 	msgType = msg.MsgType()
 	if _Debug {
 		log.Println("MsgType =", msgType)
-		if msgType == "" {
-			log.Println("Req Data\n", string(data))
-		}
 	}
 	var reply Replay
 	switch msgType {
@@ -99,6 +99,10 @@ func (wx *WxHttpHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		reply = wx.Handler.Default(msg)
 	}
 	if reply == nil {
+		ok = true
+		if _Debug {
+			log.Println("Reply nil")
+		}
 		return // http 200
 	}
 

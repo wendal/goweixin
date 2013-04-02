@@ -132,7 +132,9 @@ func Verify(token string, timestamp string, nonce string, signature string) bool
 	if _Debug {
 		log.Println("Verify key=", key)
 	}
-	re := fmt.Sprintf("%x", (sha1.New().Sum([]byte(key))))
+	h := sha1.New()
+	h.Write([]byte(key))
+	re := fmt.Sprintf("%x", h.Sum(nil))
 	if _Debug {
 		log.Println("Verify", signature, re)
 	}

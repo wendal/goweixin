@@ -94,6 +94,15 @@ func (w Message) Url() string {
 	return w.String("Url")
 }
 
+//-------------------------------
+func (w Message) MediaId() string {
+	return w.String("MediaId")
+}
+
+func (w Message) Format() string {
+	return w.String("Format")
+}
+
 //------------------------------
 //------------------------------
 //------------------------------

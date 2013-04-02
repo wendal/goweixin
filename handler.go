@@ -112,6 +112,8 @@ func (wx *WxHttpHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	if reply.MsgType() == "" {
 		reply.SetMsgType(TEXT)
 	}
+	reply.SetCreateTime(time.Now().Unix())
+
 	if _, ok = reply["FuncFlag"]; !ok {
 		reply.SetFuncFlag(0)
 	}

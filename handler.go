@@ -12,6 +12,7 @@ import (
 )
 
 var _Debug = false
+var DevMode = false
 
 const (
 	TEXT     = "text"
@@ -79,6 +80,9 @@ func (wx *WxHttpHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 	msg := xmlMsg.Msg
 	msgType = msg.MsgType()
+	if _Debug {
+		log.Println("MsgType =", msgType)
+	}
 	var reply Replay
 	switch msgType {
 	case TEXT:
@@ -125,6 +129,9 @@ func (wx *WxHttpHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 }
 
 func Verify(token string, timestamp string, nonce string, signature string) bool {
+	if DevMode {
+		return true
+	}
 	strs := []string{token, timestamp, nonce}
 	sort.Strings(strs)
 	key := strs[0] + strs[1] + strs[2]

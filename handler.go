@@ -2,7 +2,6 @@ package goweixin
 
 import (
 	"crypto/sha1"
-	"encoding/xml"
 	"fmt"
 	"github.com/clbanning/x2j"
 	"io/ioutil"
@@ -117,14 +116,8 @@ func (wx *WxHttpHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		reply.SetFuncFlag(0)
 	}
 
-	re, err := xml.Marshal(reply)
-	if err != nil {
-		log.Println("Bad reply", reply, err)
-		rw.WriteHeader(500)
-		return
-	}
 	rw.Write([]byte("<xml>"))
-	rw.Write(re)
+	rw.Write([]byte(MapToXmlString(reply)))
 	rw.Write([]byte("</xml>"))
 	ok = true
 }

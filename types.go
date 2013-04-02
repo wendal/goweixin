@@ -1,5 +1,9 @@
 package goweixin
 
+import (
+	"strconv"
+)
+
 type Message map[string]interface{}
 
 //------------------------------------
@@ -12,7 +16,15 @@ func (w Message) String(key string) string {
 
 func (w Message) Int64(key string) int64 {
 	if val, ok := w[key]; ok {
-		return val.(int64)
+		switch val.(type) {
+		case string:
+			i, _ := strconv.ParseInt(val.(string), 0, 64)
+			return i
+		case int:
+			return int64(val.(int))
+		case int64:
+			return val.(int64)
+		}
 	}
 	return 0
 }
@@ -97,7 +109,15 @@ func (r Replay) String(key string) string {
 
 func (r Replay) Int64(key string) int64 {
 	if val, ok := r[key]; ok {
-		return val.(int64)
+		switch val.(type) {
+		case string:
+			i, _ := strconv.ParseInt(val.(string), 0, 64)
+			return i
+		case int:
+			return int64(val.(int))
+		case int64:
+			return val.(int64)
+		}
 	}
 	return 0
 }

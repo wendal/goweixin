@@ -3,6 +3,7 @@ package goweixin
 import (
 	"crypto/sha1"
 	"encoding/xml"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -131,7 +132,7 @@ func Verify(token string, timestamp string, nonce string, signature string) bool
 	if _Debug {
 		log.Println("Verify key=", key)
 	}
-	re := string(sha1.New().Sum([]byte(key)))
+	re := fmt.Sprintf("%x", (sha1.New().Sum([]byte(key))))
 	if _Debug {
 		log.Println("Verify", signature, re)
 	}

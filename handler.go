@@ -70,7 +70,7 @@ func (wx *WxHttpHandler) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	m := map[string]interface{}{}
-	err = xml.Unmarshal(data, m)
+	err = xml.Unmarshal(data, &m)
 	if err != nil {
 		log.Println("Bad Req Body ERR", req, err)
 		rw.WriteHeader(500)

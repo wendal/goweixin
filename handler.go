@@ -4,6 +4,7 @@ import (
 	"crypto/sha1"
 	"fmt"
 	"github.com/clbanning/x2j"
+	//"io"
 	"io/ioutil"
 	"log"
 	"net/http"
